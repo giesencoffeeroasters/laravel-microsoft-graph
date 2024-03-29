@@ -31,7 +31,7 @@ class MsGraph
         return new Contacts();
     }
 
-    public function emails(): Emails
+    public function emails()
     {
         return new Emails();
     }

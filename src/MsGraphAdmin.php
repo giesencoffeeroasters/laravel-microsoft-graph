@@ -109,7 +109,7 @@ class MsGraphAdmin
         $token = MsGraphToken::where('user_id', null)->first();
 
         // Check if tokens exist otherwise run the oauth request
-        if (! isset($token->access_token)) {
+        if (!isset($token->access_token)) {
             // Don't request new token, simply return null when no token found with this option
             if ($returnNullNoAccessToken) {
                 return null;
@@ -158,11 +158,11 @@ class MsGraphAdmin
             return self::guzzle($function, $path, $data);
         } else {
             //request verb is not in the $options array
-            throw new Exception($function.' is not a valid HTTP Verb');
+            throw new Exception($function . ' is not a valid HTTP Verb');
         }
     }
 
-    protected function isJson(object $data): bool
+    protected function isJson(string $data): bool
     {
         return is_string($data) && is_array(json_decode($data, true)) && (json_last_error() == JSON_ERROR_NONE);
     }
@@ -170,14 +170,14 @@ class MsGraphAdmin
     /**
      * @throws Exception
      */
-    protected function guzzle(string $type, string $request, array $data = []): mixed
+    protected function guzzle(string $type, string $request, ?array $data = []): mixed
     {
         try {
             $client = new Client;
 
-            $response = $client->$type(self::$baseUrl.$request, [
+            $response = $client->$type(self::$baseUrl . $request, [
                 'headers' => [
-                    'Authorization' => 'Bearer '.$this->getAccessToken(),
+                    'Authorization' => 'Bearer ' . $this->getAccessToken(),
                     'content-type' => 'application/json',
                     'Prefer' => config('msgraph.preferTimezone'),
                 ],
